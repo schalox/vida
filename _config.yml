@@ -1,13 +1,17 @@
-title: Vida
+title: schalox's site
 baseurl: ""
 
 date_format: "%Y-%m-%d"
 
-google_analytics:
-disqus_shortname:
-
-# Build settings
 markdown:     redcarpet
-redcarpet:
-  extensions: ['smart', 'tables', 'with_toc_data']
 permalink:    pretty
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      author: "schalox"
+
+# vim: ts=2 sts=2 sw=2:
