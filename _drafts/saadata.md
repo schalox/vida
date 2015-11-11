@@ -162,11 +162,10 @@ make
 sudo make install-systemd-all
 ```
 
-Asennuksen jälkeen asd pitää konfiguroida, mikä tapahtuu muokkaamalla sen konfiguraatiotiedostoa `/etc/asd.conf`. Muuttuja VOLATILE määrittää kansion, jonka järjestelmä on liittänyt RAM-muistiin ja WHATTOSYNC taas sisältää listan kansioista, joiden sisältö halutaan säilöä RAM-muistiin. **###FIXME###** Raspbianissa `/tmp` ei ole oletuksena liitetty RAM-muistiin, joten se pitää korvata kansiolla `/dev/shm`. `asd.conf`:ista pitäisi löytyä seuraavat rivit:
+Asennuksen jälkeen asd pitää konfiguroida, mikä tapahtuu muokkaamalla sen konfiguraatiotiedostoa `/etc/asd.conf`. Muuttuja VOLATILE määrittää kansion, jonka järjestelmä on liittänyt RAM-muistiin ja WHATTOSYNC taas sisältää listan kansioista, joiden sisältö halutaan säilöä RAM-muistiin. Raspbianissa `/tmp` ei ole oletuksena liitetty RAM-muistiin. Asian voi korjata tiedostossa `/etc/default/tmpfs` poistamalla kommentin riviltä `#RAMTMP=yes`. Pi täytyy käynnistää uudelleen, jotta muutos tulee voimaan. Muuttuja `WHATTOSYNC` voidaan määritellään esimerkiksi seuraavasti:
 
-```bash
+``` bash
 WHATTOSYNC=('/home/weewx/archive' '/home/weewx/public_html')
-VOLATILE="/dev/shm"
 ```
 
 Kun asd on konfiguroitu, sen voi käynnistää komennolla `systemctl start asd`. Komennolla `systemctl enable asd` määritellään asd käynnistymään aina Pi:n käynnistyessä.
@@ -200,7 +199,27 @@ brittiläisiä yksiköitä käyttävä sivu ja kolmas eri teemaa käyttävä siv
 Raportissa teema määritellään *skin*-muuttujalla. Jos määrittelyä ei tee,
 käyttää weewx raportissa *Standard*-teemaa. Raportin konfiguroinnin yhteydessä
 voidaan muuttaa myös teeman asetuksia, jotka sijaitsevat teeman
-`skin.conf`-tiedostossa.
+`skin.conf`-tiedostossa. Sofaskinin `skin.conf`:ssa esimerkiksi on rivi, joka
+määrittelee sivun omistajan:
+
+``` python
+[Extras]
+    you = Sven
+```
+
+Tämän asetuksen voi muuttaa `weewx.conf`:sta käsin seuraavalla tavalla:
+
+``` python
+[StdReport]
+    [[StandardReport]]
+        [[[Extras]]]
+            you = nimi
+```
+
+Sofaskinin tekijä on saksalaisen , joten joidenkin yksiköiden nimet ovat
+oletuksena saksankielisiä. Lisäksi tuulen nopeuden yksikkönä käytetään km/h.
+Nämäkin asiat voidaan korjata `weewx.conf`:issa. Alla on esimerkkiraportti
+`weewx.conf`:ista, jossa yllä mainitut asiat on korjattu.
 
 ``` python
 [StdReport]
@@ -221,6 +240,10 @@ voidaan muuttaa myös teeman asetuksia, jotka sijaitsevat teeman
                 minute = " Minute", " Minutes"
                 second = " Second", " Seconds"
 ```
+
+Oletuksena Sofaskin näyttää myös sää- ja salamatutkakuvia. Ne saa pois käytöstä
+kommentoimalla *radar_*- ja *lightning*-alkuiset rivit `skin.conf`:in
+`[Extras]`-osiosta.
 
 ## Linkkejä
 - [weewx:n oppaat][wx-docs]
