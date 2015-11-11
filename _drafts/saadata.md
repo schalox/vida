@@ -5,17 +5,17 @@ categories: school
 tags:       weather
 ---
 ## Projektin tavoite
-Tavoitteena on [Fine Offsetin WH1080][wh1080] -sääasemaa sekä [Raspberry Pi][rpi]:tä käyttämällä luoda web-sivut, jotka näyttävät ja keräävät paikallista säädataa. Raspberry Pi yhdistetään sääaseman näyttöön USB-kaapelilla, ja [weewx][weewx] huolehtii säädatan keräämisestä Pi:lle. Pi:n käyttöjärjestelmänä toimii [Raspbian][raspbian]:in Jessie-versio ja web-palvelimena [Lighttpd][lighttpd].
+Tavoitteena on [Fine Offsetin WH1080][wh1080] -sääasemaa sekä [Raspberry Pi][rpi]:tä käyttämällä luoda nettisivut, jotka näyttävät ja keräävät paikallista säädataa. Raspberry Pi yhdistetään sääaseman näyttöön USB-kaapelilla, ja [weewx][weewx] huolehtii säädatan keräämisestä Pi:lle. Pi:n käyttöjärjestelmänä toimii [Raspbian][raspbian]:in Jessie-versio ja web-palvelimena [Lighttpd][lighttpd].
 
 ## Raspberry Pi
 ### Käynnistys
 Oletuksena Pi käynnistyy graafiseen tilaan, mikä ei ole tarpeellista mikäli Pi toimii vain web-palvelimena. Pi voidaan määrittää käynnistymään komentorivitilaan ajamalla komento *raspi-config* root-käyttäjän oikeuksilla, menemällä kohtaan *3 Boot Options*, valitsemalla joko *B1* tai *B2*, ja valitsemalla *&lt;Ok&gt;*.
 
 ### Muistinjako
-raspi-configissa voidaan myös määritellä miten Pi jakaa keskusmuistinsa prosessorin ja näytönohjaimen kesken. Web-palvelin ei tarvitse näytönohjainta toimiakseen, varsinkaan jos Pi:tä hallitaan SSH:n välityksellä, joten prosessorille voidaan antaa maksimimäärä muistia. Muistinjakoa säädetään valikosta *9 Advanced Options* kohdasta *A3 Memory Split*, jonne annetaan näytönohjaimelle varattavan muistin määrä, joka voi olla minimissään 16 megatavua.
+Raspi-configissa voidaan myös määritellä miten Pi jakaa keskusmuistinsa prosessorin ja näytönohjaimen kesken. Web-palvelin ei tarvitse näytönohjainta toimiakseen, varsinkaan jos Pi:tä hallitaan SSH:n välityksellä, joten prosessorille voidaan antaa maksimimäärä muistia. Muistinjakoa säädetään valikosta *9 Advanced Options* kohdasta *A3 Memory Split*, jonne annetaan näytönohjaimelle varattavan muistin määrä, joka voi olla minimissään 16 megatavua.
 
 ## Palomuuri
-Oletuksena Pi:n palomuuri sallii kaiken liikenteen. Pi käyttää palomuurina Linux:iin sisäänrakennettua iptables:ia. Sen konfigurointi onnistuu käyttämällä *iptables*-komentoa, mutta käytämme tässä tapauksessa [ufw][ufw]:ta, joka on edustaohjelma iptablesille. Ufw:n asennus ja konfigurointi tehdään alla olevilla komennoilla. Komennot vaativat root-käyttäjän oikeudet.
+Oletuksena Pi:n palomuuri sallii kaiken liikenteen. Pi käyttää palomuurina Linuxiin sisäänrakennettua iptables:ia. Sen konfigurointi onnistuu käyttämällä *iptables*-komentoa, mutta käytämme tässä tapauksessa [ufw][ufw]:ta, joka on edustaohjelma iptablesille. Ufw:n asennus ja konfigurointi tehdään alla olevilla komennoilla. Komennot vaativat root-käyttäjän oikeudet.
 
 ``` bash
 # asennetaan ufw
@@ -34,7 +34,7 @@ Lighttpd asennetaan ja konfiguroidaan seuraavilla root-oikeuksin ajettavilla kom
 ``` bash
 # asennetaan lighttpd
 apt-get install lighttpd
-# laitetaan päälle käyttäjien omat web-sivut
+# laitetaan päälle käyttäjien omat nettisivut
 # esim. 127.0.0.1/~user
 lighty-enable-mod userdir
 # asetetaan lighttpd käynnistymään aina käynnistyksen yhteydessä
@@ -43,7 +43,7 @@ systemctl enable lighttpd
 systemctl start lighttpd
 ```
 
-Oletuksena weewx:n tuottamat web-sivut näkyvät osoitteessa `127.0.0.1/~weewx`. Lighttpd:ssä osoitteille voidaan määritellä aliaksia, jolloin weewx:n web-sivuille voi päästä myös esimerkiksi osoitteella `127.0.0.1/weather`. Alla on esimerkki /weather-aliaksen luomisesta.
+Oletuksena weewx:n tuottamat nettisivut näkyvät osoitteessa `127.0.0.1/~weewx`. Lighttpd:ssä osoitteille voidaan määritellä aliaksia, jolloin weewx:n nettisivuille voi päästä myös esimerkiksi osoitteella `127.0.0.1/weather`. Alla on esimerkki `/weather`-aliaksen luomisesta.
 
 ``` bash
 # luodaan tarvittava konfiguraatiotiedosto
@@ -57,11 +57,11 @@ systemctl restart lighttpd
 
 ## weewx
 ### Asennus
-Weewx:n tehtävänä on muun muassa noutaa sääasemalta säätietoja, arkistoida niitä ja luoda niistä erilaisia raportteja, esimerkiksi web-sivuja. Weewx voi myös lähettää säätietoja verkon sääpalveluihin, kuten [Weather Underground][wug]:iin. Weewx:n voi myös määritellä käyttämään jotain toista web-palvelinta sivujen näyttämiseen.
+Weewx:n tehtävänä on muun muassa noutaa sääasemalta säätietoja, arkistoida niitä ja luoda niistä erilaisia raportteja, esimerkiksi nettisivuja. Weewx voi myös lähettää säätietoja verkon sääpalveluihin, kuten [Weather Underground][wug]:iin. Weewx:n voi myös määritellä käyttämään jotain toista web-palvelinta sivujen näyttämiseen.
 
 Weewx on saatavilla Raspbianin pakettienhallinnasta, mutta sen oletusasetukset eivät ole parhaat mahdolliset. Raspbianin paketti esimerkiksi toimii oletuksena root-käyttäjän oikeuksilla eikä siitä löydy vielä systemd-palvelua. Haemme weewx:n lähdekoodin käyttämällä [git][git]-versionhallintajärjestelmää ja asennamme weewx:n erilliselle weewx-käyttäjälle. Emme käytä mahdollisesti epävakaata kehitysversiota weewx:stä, vaan valitsemme uusimman vakaan version, mikä on kirjoitushetkellä 3.2.1. Hyödynnämme Raspbianin pakettienhallintaa hakemalla pelkästään weewx-paketin vaatimat paketit asentamatta itse weewx:iä.
 
-Asentamisen jälkeen weewx pitää vielä konfiguroida ajamalla *wee_config*-komento ja muokkaamalla `weewx.conf`-tiedostoa. wee\_config pitää huolen tärkeimmistä asetuksista, mutta muutama asetus pitää käydä itse muuttamassa.
+Asentamisen jälkeen weewx pitää vielä konfiguroida ajamalla *wee_config*-komento ja muokkaamalla `weewx.conf`-tiedostoa. Wee\_config pitää huolen tärkeimmistä asetuksista, mutta muutama asetus pitää käydä itse muuttamassa.
 
 Alla on lista weewx:n asennukseen tarvittavista komennoista.
 
@@ -101,8 +101,9 @@ nano weewx.conf
 #   aseta laitteen malli:
 #     model = WH1080
 ```
+
 ### Automaattinen sivun päivitys
-Oletuksena weewx:n tuottama websivu ei päivitä itseään automaattisesti. Tämän voi muuttaa lisäämällä käytössä olevan teeman `index.hmtl.tmpl`-tiedoston *&lt;head&gt;*-osioon alla olevan rivin, joka päivittää sivun 150 sekunnin eli 2,5 minuutin välein.
+Oletuksena weewx:n tuottama nettisivu ei päivitä itseään automaattisesti. Tämän voi muuttaa lisäämällä käytössä olevan teeman `index.hmtl.tmpl`-tiedoston *&lt;head&gt;*-osioon alla olevan rivin, joka päivittää sivun 150 sekunnin eli 2,5 minuutin välein.
 
 ``` html
 <meta http-equiv="refresh" content="150">
@@ -129,6 +130,7 @@ Oletuksena weewx-käyttäjällä ei ole riittävästi oikeuksia käsitellä sä�
 ``` bash
 ln -s /home/weewx/weewx/util/udev/rules.d/fousb.rules /etc/udev/rules.d/90-wh1080.rules
 ```
+
 Mikäli weewx-ryhmän ulkopuolisille käyttäjille ei halua antaa kirjoitusoikeutta, voi säännöstä muokata seuraavanlaisen.
 
 ``` bash
@@ -144,7 +146,7 @@ Oletuksena WH1080 tallentaa säädataa 30 minuutin välein, kun taas weewx toimi
 
 
 ## anything-sync-daemon
-Raspberry Pi käyttää tiedon tallennukseen MicroSD-korttia, jolla on rajallinen elinikä. Voimme vähentää muistikortin käyttöä tallentamalla tietoa Pi:n RAM-muistiin käyttämällä [anything-sync-daemon][asd]ia, lyhyemmin asd:ia, joka pitää haluttujen kansioiden sisällön RAM-muistissa, ja varmuuskopioi ne muistikortille säännöllisin väliajoin. weewx päivittää oletuksena viiden minuutin välein oman arkistonsa kansioon `/home/weewx/archive` ja sen pohjalta luodun nettisivun kansioon `/home/weewx/public_html`. Kun nämä kaksi kansiota tallennetaan RAM-muistiin, weewx:n muistikortille kirjoittama datamäärä pienenee huomattavasti.
+Raspberry Pi käyttää tiedon tallennukseen MicroSD-korttia, jolla on rajallinen elinikä. Voimme vähentää muistikortin käyttöä tallentamalla tietoa Pi:n RAM-muistiin käyttämällä [anything-sync-daemon][asd]ia, lyhyemmin asd:ia, joka pitää haluttujen kansioiden sisällön RAM-muistissa, ja varmuuskopioi ne muistikortille säännöllisin väliajoin. Weewx päivittää oletuksena viiden minuutin välein oman arkistonsa kansioon `/home/weewx/archive`, ja sen pohjalta luodun nettisivun kansioon `/home/weewx/public_html`. Kun nämä kaksi kansiota tallennetaan RAM-muistiin, weewx:n muistikortille kirjoittama datamäärä pienenee huomattavasti.
 
 Ohjelmaa ei ole paketoitu Raspbianille, joten asennamme sen manuaalisesti samaan tapaan kuten weewx:n alla olevien ohjeiden mukaan. Asennus tehdään pi-käyttäjätunnuksella.
 
@@ -162,7 +164,7 @@ make
 sudo make install-systemd-all
 ```
 
-Asennuksen jälkeen asd pitää konfiguroida, mikä tapahtuu muokkaamalla sen konfiguraatiotiedostoa `/etc/asd.conf`. Muuttuja VOLATILE määrittää kansion, jonka järjestelmä on liittänyt RAM-muistiin ja WHATTOSYNC taas sisältää listan kansioista, joiden sisältö halutaan säilöä RAM-muistiin. Raspbianissa `/tmp` ei ole oletuksena liitetty RAM-muistiin. Asian voi korjata tiedostossa `/etc/default/tmpfs` poistamalla kommentin riviltä `#RAMTMP=yes`. Pi täytyy käynnistää uudelleen, jotta muutos tulee voimaan. Muuttuja `WHATTOSYNC` voidaan määritellään esimerkiksi seuraavasti:
+Asennuksen jälkeen asd pitää konfiguroida, mikä tapahtuu muokkaamalla sen konfiguraatiotiedostoa `/etc/asd.conf`. Muuttuja *VOLATILE* määrittää kansion, jonka järjestelmä on liittänyt RAM-muistiin ja *WHATTOSYNC* taas sisältää listan kansioista, joiden sisältö halutaan säilöä RAM-muistiin. Raspbianissa `/tmp` ei ole oletuksena liitetty RAM-muistiin. Asian voi korjata tiedostossa `/etc/default/tmpfs` poistamalla kommentin riviltä `#RAMTMP=yes`. Pi täytyy käynnistää uudelleen, jotta muutos tulee voimaan. Muuttuja *WHATTOSYNC* voidaan määritellään esimerkiksi seuraavasti:
 
 ``` bash
 WHATTOSYNC=('/home/weewx/archive' '/home/weewx/public_html')
@@ -171,10 +173,12 @@ WHATTOSYNC=('/home/weewx/archive' '/home/weewx/public_html')
 Kun asd on konfiguroitu, sen voi käynnistää komennolla `systemctl start asd`. Komennolla `systemctl enable asd` määritellään asd käynnistymään aina Pi:n käynnistyessä.
 
 ## weewx:n käynnistys
-Lopuksi on aika käynnistää weewx ja varmistaa, että se toimii oikein. Komennoilla `systemctl start weewx`, `systemctl stop weewx` ja `systemctl restart weewx` käynnistetään, pysäytetään ja uudelleenkäynnistetään weewx. Komento `systemctl reload weewx` käskee weewx:iä lukemaan weewx:n konfiguraatio tiedoston uudelleen. Komento `journalctl -u weewx` näyttää weewx:n lokin. Valitsimella `-b` `journalctl` näyttää viimeisen käynnistyksen jälkeen tehdyt lokimerkinnät. Valitsimella `--since` voidaan katsella tietyn ajan jälkeen tehtyjä lokeja; esimerkiksi `--since=today` näyttää tämän päivän lokit, ja `--since=-1h` näyttää viimeisen tunnin lokit.
+Lopuksi on aika käynnistää weewx ja varmistaa, että se toimii oikein. Komennoilla `systemctl start weewx`, `systemctl stop weewx` ja `systemctl restart weewx` käynnistetään, pysäytetään ja uudelleenkäynnistetään weewx. Komennolla `systemctl reload weewx` weewx lukee `weewx.conf`:in uudelleen.
+
+Komento `journalctl -u weewx` näyttää weewx:n lokin. Valitsimella `-b` `journalctl` näyttää viimeisen käynnistyksen jälkeen tehdyt lokimerkinnät. Valitsimella `--since` voidaan katsella tietyn ajan jälkeen tehtyjä lokeja; esimerkiksi `--since=today` näyttää tämän päivän lokit, ja `--since=-1h` näyttää viimeisen tunnin lokit.
 
 ## Extra: Sofaskin
-weewx:lle saatavilla useita valmiita [teemoja][wx-skins], kuten [Sofaskin][sofaskin]. Teemat asennetaan sijoittamalla teeman kansio teemoille tarkoitettuun hakemistoon `/home/weewx/skins` ja otetaan käyttöön vaihtamalla teemaa `weewx.conf`:ista. Jokaisella teemalla on kansiossaan oma konfiguraatiotiedosto `skin.conf`. Teemaa voi muokata joko muokkaamalla `skin.conf`:ia tai `weewx.conf`:ia. Alla olevassa esimerkissä asennetaan Sofaskin ja muokataan sitä `weewx.conf`:ista käsin.
+Weewx:lle saatavilla useita valmiita [teemoja][wx-skins], kuten [Sofaskin][sofaskin]. Teemat asennetaan sijoittamalla teeman kansio teemoille tarkoitettuun hakemistoon `/home/weewx/skins`, ja otetaan käyttöön vaihtamalla teemaa `weewx.conf`:ista. Jokaisella teemalla on kansiossaan oma konfiguraatiotiedosto `skin.conf`. Teemaa voi muokata joko muokkaamalla `skin.conf`:ia tai `weewx.conf`:ia. Alla olevassa esimerkissä asennetaan Sofaskin ja muokataan sitä `weewx.conf`:ista käsin.
 
 ``` bash
 cd ~/skins
@@ -190,17 +194,9 @@ unzip !$
 rm !$
 ```
 
-Tämän jälkeen muokataan `weewx.conf`:ia. Osiossa `[StdReport]` määritellään,
-minkälaisia websivuja, weewx:n termein raportteja, weewx tuottaa. Oletuksena
-weewx tuottaa yhden websivun StandardReport-raportin mukaan. `StdReport`-osioon
-voi lisätä raportteja mielensä mukaan; esimerkiksi yksi normaali websivu, toinen
-brittiläisiä yksiköitä käyttävä sivu ja kolmas eri teemaa käyttävä sivu.
+Tämän jälkeen muokataan `weewx.conf`:ia. Osiossa `[StdReport]` määritellään, minkälaisia nettisivuja, weewx:n termein raportteja, weewx tuottaa. Oletuksena weewx tuottaa yhden nettisivun StandardReport-raportin mukaan. `[StdReport]`-osioon voi lisätä raportteja mielensä mukaan; esimerkiksi yhden normaalin nettisivun, toisen brittiläisiä yksiköitä käyttävän sivun ja kolmannen eri teemaa käyttävän sivun.
 
-Raportissa teema määritellään *skin*-muuttujalla. Jos määrittelyä ei tee,
-käyttää weewx raportissa *Standard*-teemaa. Raportin konfiguroinnin yhteydessä
-voidaan muuttaa myös teeman asetuksia, jotka sijaitsevat teeman
-`skin.conf`-tiedostossa. Sofaskinin `skin.conf`:ssa esimerkiksi on rivi, joka
-määrittelee sivun omistajan:
+Raportissa teema määritellään *skin*-muuttujalla. Jos määrittelyä ei tee, käyttää weewx raportissa *Standard*-teemaa. Raportin konfiguroinnin yhteydessä voidaan muuttaa myös teeman asetuksia, jotka sijaitsevat teeman `skin.conf`-tiedostossa. Sofaskinin `skin.conf`:ssa esimerkiksi on rivi, joka määrittelee sivun tekijän:
 
 ``` python
 [Extras]
@@ -216,10 +212,7 @@ Tämän asetuksen voi muuttaa `weewx.conf`:sta käsin seuraavalla tavalla:
             you = nimi
 ```
 
-Sofaskinin tekijä on saksalaisen , joten joidenkin yksiköiden nimet ovat
-oletuksena saksankielisiä. Lisäksi tuulen nopeuden yksikkönä käytetään km/h.
-Nämäkin asiat voidaan korjata `weewx.conf`:issa. Alla on esimerkkiraportti
-`weewx.conf`:ista, jossa yllä mainitut asiat on korjattu.
+Sofaskinillä on saksalainen tekijä, joten joidenkin yksiköiden nimet ovat oletuksena saksankielisiä. Lisäksi tuulen nopeuden yksikkönä käytetään km/h.  Nämäkin asiat voidaan korjata `weewx.conf`:issa. Alla on esimerkkiraportti `weewx.conf`:ista, jossa yllä mainitut asiat on korjattu.
 
 ``` python
 [StdReport]
