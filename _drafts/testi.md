@@ -14,6 +14,7 @@ This is a test post!
 - third thing
 
 ## Code
+### vim
 {% highlight vim linenos %}
 " local config
 if filereadable(expand("~/.vimrc.local"))
@@ -21,6 +22,7 @@ if filereadable(expand("~/.vimrc.local"))
 endif
 {% endhighlight %}
 
+### bash
 ``` bash
 #!/bin/bash
 
