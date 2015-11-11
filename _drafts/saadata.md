@@ -226,7 +226,7 @@ Nämäkin asiat voidaan korjata `weewx.conf`:issa. Alla on esimerkkiraportti
     [[StandardReport]]
         skin = Sofaskin
         [[[Extras]]]
-            you = <your name>
+            you = nimi
         [[[Units]]]
             [[[[Groups]]]]
                 group_speed = meter_per_second
