@@ -1,6 +1,6 @@
 ---
-layout:     post
-title:      Kuvia sääasemasta
+layout: post
+title:  Kuvia sääasemasta
 ---
 ### Sääaseman anturit
 ![][anturit]

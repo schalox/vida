@@ -1,6 +1,6 @@
 ---
-layout:     post
-title:      Säädatan jakaminen internetiin
+layout: post
+title:  Säädatan jakaminen internetiin
 ---
 ## Projektin tavoite
 Tavoitteena on [Fine Offsetin WH1080][wh1080] -sääasemaa sekä [Raspberry Pi][rpi]:tä käyttämällä luoda nettisivut, jotka näyttävät ja keräävät paikallista säädataa. Raspberry Pi yhdistetään sääaseman näyttöön USB-kaapelilla, ja [weewx][weewx] huolehtii säädatan keräämisestä Pi:lle. Pi:n käyttöjärjestelmänä toimii [Raspbian][raspbian]:in Jessie-versio ja web-palvelimena [Lighttpd][lighttpd].
