@@ -238,7 +238,7 @@ kommentoimalla *radar_*- ja *lightning*-alkuiset rivit `skin.conf`:in
 
 ## Linkkejä
 - [weewx:n oppaat][wx-docs]
-- [weewx:n käyttö Raspberry Pi:llä][wx-rpi]
+- [weewx:n wiki][wx-wiki]
 
 [wh1080]: http://www.foshk.com/Weather_Professional/WH1080.htm
 [rpi]: https://www.raspberrypi.org/
@@ -252,4 +252,4 @@ kommentoimalla *radar_*- ja *lightning*-alkuiset rivit `skin.conf`:in
 [wx-skins]: https://github.com/weewx/weewx/wiki#skins
 [sofaskin]: http://en.blauesledersofa.de/2015/03/flat-template-for-weewx
 [wx-docs]: http://weewx.com/docs.html
-[wx-rpi]: https://github.com/weewx/weewx/wiki/Raspberry-Pi
+[wx-wiki]: https://github.com/weewx/weewx/wiki
