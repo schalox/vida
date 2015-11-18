@@ -1,8 +1,6 @@
 ---
 layout:     post
 title:      Kuvia sääasemasta
-categories: school
-tags:       weather
 ---
 ### Sääaseman anturit
 ![][anturit]
