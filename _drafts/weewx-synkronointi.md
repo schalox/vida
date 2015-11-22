@@ -147,7 +147,7 @@ Paikallisen koneen ulkoisen IP-osoitteen  saa selville esimerkiksi komennolla
 `curl https://icanhazip.com`.
 
 Rsync-komento, jonka weewx ajaa tallentuu SSH-istunnon ajaksi
-ympäristömuuttujaan *SSH_ORIGINAL_COMMAND*. Voimme saada sen selville luomalla
+ympäristömuuttujaan *SSH\_ORIGINAL\_COMMAND*. Voimme saada sen selville luomalla
 scriptin, joka tallentaa komennon etäkoneelle, ja määrittämällä sen tilapäisesti
 avaimen komennoksi. Kun weewx sitten ajetaan, tallentuu rsync-komento
 haluamaamme tiedostoon. Alla on skriptin sisältö.
