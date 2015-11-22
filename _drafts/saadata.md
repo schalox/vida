@@ -13,7 +13,7 @@ Oletuksena Pi käynnistyy graafiseen tilaan, mikä ei ole tarpeellista mikäli P
 Raspi-configissa voidaan myös määritellä miten Pi jakaa keskusmuistinsa prosessorin ja näytönohjaimen kesken. Web-palvelin ei tarvitse näytönohjainta toimiakseen, varsinkaan jos Pi:tä hallitaan SSH:n välityksellä, joten prosessorille voidaan antaa maksimimäärä muistia. Muistinjakoa säädetään valikosta *9 Advanced Options* kohdasta *A3 Memory Split*, jonne annetaan näytönohjaimelle varattavan muistin määrä, joka voi olla minimissään 16 megatavua.
 
 ## Palomuuri
-Oletuksena Pi:n palomuuri sallii kaiken liikenteen. Pi käyttää palomuurina Linuxiin sisäänrakennettua iptables:ia. Sen konfigurointi onnistuu käyttämällä *iptables*-komentoa, mutta käytämme tässä tapauksessa [ufw][ufw]:ta, joka on edustaohjelma iptablesille. Ufw:n asennus ja konfigurointi tehdään alla olevilla komennoilla. Komennot vaativat root-käyttäjän oikeudet.
+Oletuksena Pi:n palomuuri sallii kaiken liikenteen. Tietoturvan kannalta on järkevää estää oletuksena sisääntuleva liikenne, ja avata vain tarvittavat portit. Pi käyttää palomuurina Linuxiin sisäänrakennettua iptables:ia. Sen konfigurointi onnistuu käyttämällä *iptables*-komentoa, mutta käytämme tässä tapauksessa [ufw][ufw]:ta, joka on edustaohjelma iptablesille. Oletuksena ufw estää sisääntulevan liikenteen, joten sille pitää kertoa, mitkä palvelut sallitaan. Ufw:n asennus ja konfigurointi tehdään alla olevilla komennoilla. Komennot vaativat root-käyttäjän oikeudet.
 
 ``` bash
 # asennetaan ufw
@@ -99,6 +99,8 @@ nano weewx.conf
 #   aseta laitteen malli:
 #     model = WH1080
 ```
+
+Kun weewx myöhemmin käynnistetään, se hakee 5 minuutin välein sääasemalta sen keräämän säädatan ja luo sen pohjalta säädata-arkiston kansioon `/home/weewx/archive/`. Tämän jälkeen weewx luo arkistoon pohjautuvan nettisivun kansioon `/home/weewx/public_html`, ja mahdollisesti synkronoi nettisivun jollekin web-palvelimelle.
 
 ### Automaattinen sivun päivitys
 Oletuksena weewx:n tuottama nettisivu ei päivitä itseään automaattisesti. Tämän voi muuttaa lisäämällä käytössä olevan teeman `index.hmtl.tmpl`-tiedoston *&lt;head&gt;*-osioon alla olevan rivin, joka päivittää sivun 150 sekunnin eli 2,5 minuutin välein.
