@@ -11,6 +11,6 @@ title:  Kuvia sääasemasta
 ### Raspberry Pi
 ![][pi]
 
-[anturit]: {{ site.baseurl }}/images/0770-anturit.jpg
-[pad-pi]: {{ site.baseurl }}/images/0773-pad-pi.jpg
-[pi]: {{ site.baseurl }}/images/0774-pi.jpg
+[anturit]: {{ site.baseurl }}/images/IMG_0363.jpg
+[pad-pi]: {{ site.baseurl }}/images/IMG_0367.jpg
+[pi]: {{ site.baseurl }}/images/IMG_0371.jpg
